@@ -1,4 +1,5 @@
-﻿#include "Include.h"
+//This File contain Blinky's code. one of the four ghosts of the game.
+#include "Include.h"
 Blinky::Blinky(QPoint position) : Ghosts()
 {
 	vulnerable =false;
