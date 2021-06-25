@@ -1,0 +1,38 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+
+ <file>Sprites/icona.png</file>
+ <file>Sprites/title.png</file>
+ <file>Sprites/Allpacman.png</file>
+ <file>Sprites/characters.png</file>
+ <file>Sprites/score.png</file>
+ <file>Sprites/ready1.png</file>
+ <file>Sprites/lives.png</file>
+ <file>Sprites/Cherry.png</file>
+ <file>Sprites/scene-go.png</file>
+ <file>Sprites/ok.png</file>
+ <file>Sprites/goback.png</file>
+ <file>Sprites/Ranking.png</file>
+ <file>Sprites/back.png</file>
+ <file>Sprites/rank.png</file>
+ <file>Sprites/Play.png</file>
+ <file>Sprites/gameover.png</file>
+ <file>Sprites/ai.png</file>
+ <file>Sprites/ai3.png</file>
+ <file>Sprites/normal.png</file>
+ <file>Sprites/buttonAi.png</file>
+ <file>Sprites/pause.png</file>
+ <file>Sprites/win.png</file>
+
+ <file>Sounds/beginning.wav</file>
+ <file>Sounds/munch_1.wav</file>
+ <file>Sounds/munch_2.wav</file>
+ <file>Sounds/siren_1.wav</file>
+ <file>Sounds/death.wav</file>
+ <file>Sounds/eatfruit.wav</file>
+ <file>Sounds/eyes.wav</file>
+ <file>Sounds/hunt.wav</file>
+ <file>Sounds/eatghost.wav</file>
+
+</qresource>
+</RCC>
