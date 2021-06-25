@@ -10,7 +10,9 @@ https://cmake.org/download/
 
 3. Configure (if it doesn't find QtMultimedia and QtWidgest, add them manually by clicking on the 3 dots to the right of the red error bar and searching for them in the Mac search bar)
 
-N.B. The Qt library needs to be installed on the machine, otherwise it doesn't know where to get it
+N.B. The Qt library needs to be installed on the machine, otherwise it doesn't know where to get it. Dowload it from the official site
+
+https://www.qt.io/download
 
 4. Generate
 
