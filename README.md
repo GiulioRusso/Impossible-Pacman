@@ -1,5 +1,5 @@
 # Impossible Pacman
-Pacman game implementation in C++ and Qt with artificial intelligence mode using Floyd Warshall algorithm for shortest path.
+Pacman game implementation in C++ and Qt with artificial intelligence mode using Floyd-Warshall algorithm for shortest path.
 
 <img src="./images/Map.png" width="50%">
 
@@ -38,7 +38,7 @@ Ghosts have different modes:
     - Pinky moves to the top-left corner.
     - Inky moves to the bottom-right corner.
     - Clyde moves to the bottom-left corner.
-- **Frightened**: ghosts can be eated by Pacman.
+- **Frightened**: ghosts can be eaten by Pacman.
 
 The different modes change following this sequence:
 1. Scatter for 7 seconds, Chase for 20 seconds.
