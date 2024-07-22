@@ -16,6 +16,8 @@ Build the project using CMake:
 3. Generate.
 4. Open the project folder from terminal, run the command "make", wait the compiling, then you can launch the game with "./impossiblepacman"
 
+Note: No matter which compiling solution you use. You can build the project also using one of the IDE project that can be created with CMake (e.g. Xcode, Eclipse etc.).
+
 # Game logic
 The classic pacman rules are implemented. We have 4 ghosts:
 
@@ -75,7 +77,7 @@ After you selected your game mode, you will be redirected to the welcome window,
 
 - **Ranking**: to see the ranking scores saved. <br>
 <img src="./Sprites/Ranking.png"> <br>
-The best 10 saved scores are shown: <br>
+The 10 best saved scores are shown: <br>
 <img src="./images/Ranking-show.png" width="50%"> <br>
 Click on the yellow arrow to go back to the welcome window.
 
