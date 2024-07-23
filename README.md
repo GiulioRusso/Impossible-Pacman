@@ -48,7 +48,7 @@ The different modes change following this sequence:
 
 Ghosts can change their direction only when they have arrived on a node of the map.
 
-If Pacman dies or the level is completed, the cycle resets. Additionally, when only 20 pieces of food remain, Blinky permanently enters Scatter mode.
+If Pacman dies or the level is completed, the cycle resets. Additionally, when only 20 pieces of food remain, Blinky permanently enters Scatter mode. Ghosts are slightly faster than Pacman.
 
 When Pacman eats a power pellet, all ghosts enter Frightened mode. In this mode, ghosts turn blue, move more slowly, and can be eaten by Pacman for extra points. Their movement logic also changes—they reverse their current direction and start moving randomly.
 
@@ -72,7 +72,7 @@ If you want to change the game mode, on the top of the screen there are two butt
 <img src="./Sprites/normal.png">  <br>
 
 - **AI**: to play the AI version where Blinky and Clyde are powered with the Floyd-Warshall algorithm for shortest path, while the other ghosts are in permanent Chase mode.
-After you selected your game mode, you will be redirected to the welcome window, and clicking again on "Play" you will play in the selected mode. <br>
+After you selected your game mode, you will be redirected to the welcome window, and clicking again on "Play" you will play in the selected mode. You can recognize it because the ghosts will have an angry face and the map will blink in RGB colors<br>
 <img src="./Sprites/buttonAi.png">  <br>
 
 - **Ranking**: to see the ranking scores saved. <br>
@@ -93,10 +93,13 @@ The ranking window will appear to save your score. Insert your name into the tex
 <img src="./images/Ranking-save.png" width="50%">
 
 # Shortcuts
-- T: show the ghost's target
+- P: paused the game. Click it again to continue to play. <br>
+    <img src="./images/Pause.png" width="50%"> <br>
 
-Normal mode: <br>
-<img src="./images/Target-show-normal.png" width="50%">
+- T: show the ghost's target.
 
-AI mode: <br>
-<img src="./images/Target-show-ai.png" width="50%">
+    Normal mode: <br>
+    <img src="./images/Target-show-normal.png" width="50%">
+
+    AI mode: <br>
+    <img src="./images/Target-show-ai.png" width="50%">
