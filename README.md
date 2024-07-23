@@ -1,7 +1,7 @@
 # Impossible Pacman
 Pacman game implementation in C++ and Qt with artificial intelligence mode using Floyd-Warshall algorithm for shortest path.
 
-<img src="./images/Map.png" width="50%">
+<img src="./images/Example.gif" width="50%"> <br>
 
 # Requirements
 - Qt library
