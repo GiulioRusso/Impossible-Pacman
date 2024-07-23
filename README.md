@@ -69,11 +69,11 @@ Pacman is controlled using the arrow keys on your keyboard.
 
 If you want to change the game mode, on the top of the screen there are two buttons:
 - **Normal**: to play in the current normal mode. <br>
-<img src="./Sprites/normal.png">
+<img src="./Sprites/normal.png">  <br>
 
 - **AI**: to play the AI version where Blinky and Clyde are powered with the Floyd-Warshall algorithm for shortest path, while the other ghosts are in permanent Chase mode.
 After you selected your game mode, you will be redirected to the welcome window, and clicking again on "Play" you will play in the selected mode. <br>
-<img src="./Sprites/buttonAi.png">
+<img src="./Sprites/buttonAi.png">  <br>
 
 - **Ranking**: to see the ranking scores saved. <br>
 <img src="./Sprites/Ranking.png"> <br>
