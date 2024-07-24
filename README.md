@@ -33,12 +33,17 @@ Ghosts have different modes:
     - Pinky targets a position 4 tiles ahead of Pacman. If Pacman is moving up it adjust with other 4 tiles on the left.
     - Inky targets a tile that is 2 tiles directly ahead of Pacman in his current direction. If Pacman is moving up, Inky targets a tile that is 2 tiles ahead of Pacman in his current direction and then 2 tiles to the left of that position. Once Inky has determined Pacman's target tile (as described above), he then takes Blinky's position into account. Imagine a line drawn from Blinky's current position to the target tile calculated in the first step. Extend this line an equal distance beyond the target tile, effectively rotating the target by 180 degrees around the target tile. The end of this extended line (the point beyond the original target tile) becomes Inky's final target. This targeting method often causes Inky to coordinate with Blinky to trap Pacman between them.
     - Clyde targets in the lower left corner of the map. If it is at a distance less than 8 tiles from Pacman, it points directly to it as Blinky.
+
 - **Scatter**: ghosts temporarily stop chasing Pacman and instead move to their respective corners of the map:
+
     - Blinky moves to the top-right corner.
     - Pinky moves to the top-left corner.
     - Inky moves to the bottom-right corner.
     - Clyde moves to the bottom-left corner.
+
 - **Frightened**: ghosts can be eaten by Pacman.
+
+- **Eaten**: ghosts eaten by Pacman. They turn into a pair of eyes and come back to the starting gate.
 
 The different modes change following this sequence:
 1. Scatter for 7 seconds, Chase for 20 seconds.
