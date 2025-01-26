@@ -12,8 +12,8 @@ Build the project using CMake ([Download link](https://cmake.org/download/)):
 2. Select the destination folder that will contain the built project.
 3. Click Configure.
 4. Select the desired generator:
-   - For Xcode: Choose **Xcode** and ensure **Use default native compilers** is selected.
    - For Unix Makefiles: Choose **Unix Makefiles** and ensure **Use default native compilers** is selected.
+   - For IDEs supported by CMake (e.g. Xcode, Visual Studio, Eclipse), select the appropriate generator and ensure **Use default native compilers** is selected.
 5. If Qt is not found automatically:
    - Add the Qt paths manually by clicking the ellipsis button next to the error message.
    - Alternatively, update the `CMakeLists.txt` file to specify the paths of your Qt installation. For example in my case is:
