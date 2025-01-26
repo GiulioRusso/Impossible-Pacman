@@ -28,11 +28,18 @@ Build the project using CMake ([Download link](https://cmake.org/download/)):
     2. In Xcode, select the executable target from the top menu.
     3. Click the **Play** button in Xcode to build and run the project.
 
-    Note: you may need to include the following lines in the `CMakeLists.txt` file to specify the compiler paths:
-    ```cmake
-    set(CMAKE_C_COMPILER /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc)
-    set(CMAKE_CXX_COMPILER /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++)
-    ```
+    Note:
+    - You may need to include the following lines in the `CMakeLists.txt` file to specify the compiler paths:
+        ```cmake
+        set(CMAKE_C_COMPILER /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc)
+        set(CMAKE_CXX_COMPILER /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++)
+        ```
+
+    - If you encounter errors, such as an unrecognized compiler during the Configure step, you can run the following command to set Xcode tools correctly:
+        ```bash
+        sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+        ```
+
     ### For Unix Makefiles
     1. Navigate to the build folder using a terminal.
     2. Run the `make` command to compile the project:
@@ -43,6 +50,11 @@ Build the project using CMake ([Download link](https://cmake.org/download/)):
         ```bash
         ./impossiblepacman
         ```
+
+## Important Notes
+- Do not rename or move the source or destination folders after generating the project; otherwise, the build may fail.
+- Ensure you are using the correct compilers. 
+- Avoid using folder names with special characters or spaces, as they may cause errors in the build process.
 
 Note: No matter which compiling solution you use. You can build the project also using one of the IDE project that can be created with CMake (e.g. Xcode, Eclipse etc.).
 
