@@ -21,7 +21,7 @@ Build the project using CMake ([Download link](https://cmake.org/download/)):
      # Example for Qt5Widgets and Qt5Multimedia
      set(CMAKE_PREFIX_PATH "/Applications/Qt/5.15.2/clang_64/lib/cmake")
      ```
-6. Generate.
+6. Click Generate.
 
     ### For Xcode Users
     1. Navigate to the destination folder and open the generated Xcode project.
