@@ -4,17 +4,45 @@ Pacman game implementation in C++ and Qt with artificial intelligence mode using
 <img src="./images/Example.gif" width="50%"> <br>
 
 # Requirements
-- Qt library
+- Qt library ([Download link](https://www.qt.io/download-dev))
 
 # How to run it
-Build the project using CMake:
+Build the project using CMake ([Download link](https://cmake.org/download/)):
 1. Clone the repository and select it as source code.
 2. Select the destination folder that will contain the built project.
 3. Click Configure.
-4. Choose *Unix Makefiles* and *Default native compilers*.
-5. Add the Qt library path if they are not founded. Otherwise you can specify your paths inside the CMakeLists.txt.
-3. Generate.
-4. Open the project folder from terminal, run the command "make", wait the compiling, then you can launch the game with "./impossiblepacman"
+4. Select the desired generator:
+   - For Xcode: Choose **Xcode** and ensure **Use default native compilers** is selected.
+   - For Unix Makefiles: Choose **Unix Makefiles** and ensure **Use default native compilers** is selected.
+5. If Qt is not found automatically:
+   - Add the Qt paths manually by clicking the ellipsis button next to the error message.
+   - Alternatively, update the `CMakeLists.txt` file to specify the paths of your Qt installation. For example in my case is:
+     ```cmake
+     # Example for Qt5Widgets and Qt5Multimedia
+     set(CMAKE_PREFIX_PATH "/Applications/Qt/5.15.2/clang_64/lib/cmake")
+     ```
+6. Generate.
+
+    ### For Xcode Users
+    1. Navigate to the destination folder and open the generated Xcode project.
+    2. In Xcode, select the executable target from the top menu.
+    3. Click the **Play** button in Xcode to build and run the project.
+
+    Note: you may need to include the following lines in the `CMakeLists.txt` file to specify the compiler paths:
+    ```cmake
+    set(CMAKE_C_COMPILER /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc)
+    set(CMAKE_CXX_COMPILER /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++)
+    ```
+    ### For Unix Makefiles
+    1. Navigate to the build folder using a terminal.
+    2. Run the `make` command to compile the project:
+    ```bash
+    make
+    ```
+    3. After compiling, launch the game with:
+        ```bash
+        ./impossiblepacman
+        ```
 
 Note: No matter which compiling solution you use. You can build the project also using one of the IDE project that can be created with CMake (e.g. Xcode, Eclipse etc.).
 
