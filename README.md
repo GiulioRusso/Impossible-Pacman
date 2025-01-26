@@ -26,7 +26,7 @@ Build the project using CMake ([Download link](https://cmake.org/download/)):
     ### For Xcode Users
     1. Navigate to the destination folder and open the generated Xcode project.
     2. In Xcode, select the executable target from the top menu.
-    3. Click the **Play** button in Xcode to build and run the project.
+    3. Click the Play button in Xcode to build and run the project.
 
     Note:
     - You may need to include the following lines in the `CMakeLists.txt` file to specify the compiler paths:
