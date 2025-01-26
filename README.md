@@ -36,9 +36,9 @@ Build the project using CMake ([Download link](https://cmake.org/download/)):
     ### For Unix Makefiles
     1. Navigate to the build folder using a terminal.
     2. Run the `make` command to compile the project:
-    ```bash
-    make
-    ```
+        ```bash
+        make
+        ```
     3. After compiling, launch the game with:
         ```bash
         ./impossiblepacman
