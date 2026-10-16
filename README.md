@@ -1,150 +1,198 @@
-# Impossible Pacman
-Pacman game implementation in C++ and Qt with artificial intelligence mode using Floyd-Warshall algorithm for shortest path.
+# Impossible Pac-Man
 
-<img src="./images/Example.gif" width="50%"> <br>
+Pac-Man clone in C++/Qt 5 with a classic ghost-AI mode and an "impossible" mode where ghosts chase via precomputed shortest paths (Floyd–Warshall).
 
-# Requirements
-- Qt library ([Download link](https://www.qt.io/download-dev))
+> **Status**
+> - University project, Object-Oriented Programming course (Tecniche di Programmazione), year: `TODO(Giulio)`.
+> - Private archive.
+> - Qt 5 only (uses `QSound`, removed in Qt 6).
+> - Last built on macOS with Qt 5.15.2 (Xcode toolchain). Re-check on 2026-10-16 (macOS, CMake 4.4): configure only, see [Troubleshooting](#troubleshooting).
+> - Sprites and sounds are third-party; the project is not for redistribution.
 
-# How to run it
-Build the project using CMake ([Download link](https://cmake.org/download/)):
-1. Clone the repository and select it as source code.
-2. Select the destination folder that will contain the built project.
-3. Click Configure.
-4. Select the desired generator:
-   - For Unix Makefiles: Choose **Unix Makefiles** and ensure **Use default native compilers** is selected.
-   - For IDEs supported by CMake (e.g. Xcode, Visual Studio, Eclipse), select the appropriate generator and ensure **Use default native compilers** is selected.
-5. If Qt is not found automatically:
-   - Add the Qt paths manually by clicking the ellipsis button next to the error message.
-   - Alternatively, update the `CMakeLists.txt` file to specify the paths of your Qt installation. For example in my case is:
-     ```cmake
-     # Example for Qt5Widgets and Qt5Multimedia
-     set(CMAKE_PREFIX_PATH "/Applications/Qt/5.15.2/clang_64/lib/cmake")
-     ```
-6. Click Generate.
+<img src="./images/Example.gif" width="50%">
 
-    ### For Xcode Users
-    1. Navigate to the destination folder and open the generated Xcode project.
-    2. In Xcode, select the executable target from the top menu.
-    3. Click the Play button in Xcode to build and run the project.
+## Quick start (CLI)
 
-    Note:
-    - You may need to include the following lines in the `CMakeLists.txt` file to specify the compiler paths:
-        ```cmake
-        set(CMAKE_C_COMPILER /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/cc)
-        set(CMAKE_CXX_COMPILER /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++)
-        ```
+```bash
+# edit CMakeLists.txt lines 1–2 and CMAKE_PREFIX_PATH to match your machine (see Build notes)
+cmake -S . -B build
+cmake --build build
+./build/impossiblepacman
+```
 
-    - If you encounter errors, such as an unrecognized compiler during the Configure step, you can run the following command to set Xcode tools correctly:
-        ```bash
-        sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
-        ```
+With CMake ≥ 4 also pass `-DCMAKE_POLICY_VERSION_MINIMUM=3.5` to the first command (see [Troubleshooting](#troubleshooting)).
 
-    ### For Unix Makefiles
-    1. Navigate to the build folder using a terminal.
-    2. Run the `make` command to compile the project:
-        ```bash
-        make
-        ```
-    3. After compiling, launch the game with:
-        ```bash
-        ./impossiblepacman
-        ```
+## Build notes
 
-## Important Notes
-- Do not rename or move the source or destination folders after generating the project; otherwise, the build may fail.
-- Ensure you are using the correct compilers. 
-- Avoid using folder names with special characters or spaces, as they may cause errors in the build process.
+**Requirements:** Qt 5 (Widgets, Multimedia), CMake ≥ 3.1, a C++11 compiler.
 
-Note: No matter which compiling solution you use. You can build the project also using one of the IDE project that can be created with CMake (e.g. Xcode, Eclipse etc.).
+**Hardcoded paths in `CMakeLists.txt`.** All three use `set()`, which overrides `-D` values from the command line, so they must be edited in the file on any other machine:
 
-# Game logic
-The classic pacman rules are implemented. We have 4 ghosts:
+| Line | Setting | Value | Change it when |
+|---|---|---|---|
+| 1 | `CMAKE_C_COMPILER` | Xcode `cc` | Not on macOS with Xcode at `/Applications/Xcode.app` |
+| 2 | `CMAKE_CXX_COMPILER` | Xcode `c++` | Same as above |
+| 22 | `CMAKE_PREFIX_PATH` | `/Applications/Qt/5.15.2/clang_64/lib/cmake` | Qt 5 is installed elsewhere (e.g. Homebrew `qt@5`, Linux distro packages) |
 
-1. **Blinky** (red)
-2. **Pinky** (pink)
-3. **Inky** (cyan)
-4. **Clyde** (orange)
+Lines 1–2 sit before `project()`, so deleting them is enough to fall back to the default compilers.
 
-Ghosts have different modes:
-- **Chase**: ghosts actively pursue Pacman based on their individual targeting logic:
+**CMake GUI flow:**
+1. Source = repo folder, build = an empty destination folder.
+2. Click **Configure**, pick a generator (Unix Makefiles, Xcode, …) with **Use default native compilers**.
+3. If Qt is not found, fix `CMAKE_PREFIX_PATH` in `CMakeLists.txt` (or set `Qt5Widgets_DIR` / `Qt5Multimedia_DIR` in the GUI) and configure again.
+4. Click **Generate**. For Unix Makefiles, run `make` in the build folder, then `./impossiblepacman`.
 
-    - Blinky directly targets Pacman’s current position.
-    - Pinky targets a position 4 tiles ahead of Pacman. If Pacman is moving up it adjust with other 4 tiles on the left.
-    - Inky targets a tile that is 2 tiles directly ahead of Pacman in his current direction. If Pacman is moving up, Inky targets a tile that is 2 tiles ahead of Pacman in his current direction and then 2 tiles to the left of that position. Once Inky has determined Pacman's target tile (as described above), he then takes Blinky's position into account. Imagine a line drawn from Blinky's current position to the target tile calculated in the first step. Extend this line an equal distance beyond the target tile, effectively rotating the target by 180 degrees around the target tile. The end of this extended line (the point beyond the original target tile) becomes Inky's final target. This targeting method often causes Inky to coordinate with Blinky to trap Pacman between them.
-    - Clyde targets in the lower left corner of the map. If it is at a distance less than 8 tiles from Pacman, it points directly to it as Blinky.
+**Xcode flow:**
+1. `cmake -S . -B build-xcode -G Xcode`
+2. Open `build-xcode/impossiblepacman.xcodeproj`.
+3. Select the `impossiblepacman` target and press Run.
 
-- **Scatter**: ghosts temporarily stop chasing Pacman and instead move to their respective corners of the map:
+If configure fails with an unrecognised compiler, point the command-line tools at Xcode:
+```bash
+sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
+```
 
-    - Blinky moves to the top-right corner.
-    - Pinky moves to the top-left corner.
-    - Inky moves to the bottom-right corner.
-    - Clyde moves to the bottom-left corner.
+**Rules:**
+- Don't move or rename the source or build folder after configuring. The build tree stores absolute paths, including the ones AUTORCC uses to embed `Resources.qrc` (all sprites and sounds), so a moved tree fails to build.
+- Avoid spaces and special characters in both paths.
 
-- **Frightened**: ghosts can be eaten by Pacman.
+## Controls
 
-- **Eaten**: ghosts eaten by Pacman. They turn into a pair of eyes and come back to the starting gate.
+| Key | Action |
+|---|---|
+| Arrows | Move Pac-Man |
+| Enter | Start a game from the welcome screen (same as **Play**) |
+| P | Pause / resume (only after the first 4 seconds of a game) |
+| T | Toggle ghost targets (see below) |
+| R | Reset to the welcome screen |
+| D | Debug: lose a life immediately (on the last life this triggers Game Over) |
+| Mouse wheel | Zoom the view in / out |
 
-The different modes change following this sequence:
-1. Scatter for 7 seconds, Chase for 20 seconds.
-2. Scatter for 7 seconds, Chase for 20 seconds.
-3. Scatter for 5 seconds, Chase for 20 seconds.
-4. Scatter for 5 seconds, Chase until the end of the level.
+Pause:
 
-Ghosts can change their direction only when they have arrived on a node of the map.
+<img src="./images/Pause.png" width="50%">
 
-If Pacman dies or the level is completed, the cycle resets. Additionally, when only 20 pieces of food remain, Blinky permanently enters Scatter mode. Ghosts are slightly faster than Pacman.
+Targets in Normal mode (a line from each ghost to its target):
 
-When Pacman eats a power pellet, all ghosts enter Frightened mode. In this mode, ghosts turn blue, move more slowly, and can be eaten by Pacman for extra points. Their movement logic also changes—they reverse their current direction and start moving randomly.
+<img src="./images/Target-show-normal.png" width="50%">
 
-If Pacman eats a ghost in Frightened mode, the ghost enters Eaten mode. The ghost’s appearance changes to just a pair of eyes, and it heads directly back to the starting gate. Once there, it returns to its normal form and resumes either Scatter or Chase mode, depending on the current cycle.
+Targets in AI mode (the planned paths of Blinky and Clyde, lines for Pinky and Inky):
 
-# How to play it
-The game open with a welcome window: <br>
+<img src="./images/Target-show-ai.png" width="50%">
+
+## Game modes
+
+The welcome screen has **Play**, **Ranking**, and two mode buttons at the top.
 
 <img src="./images/Welcome-window.png" width="50%">
 
-<br>
+- **Normal** <img src="./Sprites/normal.png">: arcade rules, see [Ghost behaviour](#ghost-behaviour).
+- **AI ("impossible")** <img src="./Sprites/buttonAi.png">: Blinky and Clyde follow precomputed shortest paths to Pac-Man; Pinky and Inky stay in permanent Chase. Ghosts get angry sprites and the maze blinks through RGB colours.
 
-You can click on:
+Clicking a mode button returns to the welcome screen; then click **Play** <img src="./Sprites/Play.png"> (or press Enter) to start in that mode.
 
-- **Play**: to play the normal pacman game mode. <br>
-<img src="./Sprites/Play.png"> <br>
-Pacman is controlled using the arrow keys on your keyboard.
+## Ghost behaviour
 
-If you want to change the game mode, on the top of the screen there are two buttons:
-- **Normal**: to play in the current normal mode. <br>
-<img src="./Sprites/normal.png">  <br>
+| Ghost | Colour | Chase target | Scatter corner |
+|---|---|---|---|
+| Blinky | Red | Pac-Man's position | Top-right |
+| Pinky | Pink | 26 px (≈ 3 tiles) ahead of Pac-Man | Top-left |
+| Inky | Cyan | Vector rule, see below | Bottom-right |
+| Clyde | Orange | Pac-Man if closer than 50 px (≈ 6 tiles), otherwise its Scatter corner | Bottom-left |
 
-- **AI**: to play the AI version where Blinky and Clyde are powered with the Floyd-Warshall algorithm for shortest path, while the other ghosts are in permanent Chase mode.
-After you selected your game mode, you will be redirected to the welcome window, and clicking again on "Play" you will play in the selected mode. You can recognize it because the ghosts will have an angry face and the map will blink in RGB colors<br>
-<img src="./Sprites/buttonAi.png">  <br>
+- **Pinky, facing up:** the target is 26 px up *and* 26 px left. This reproduces the arcade overflow bug on purpose.
+- **Inky:** take the point 16 px (2 tiles) ahead of Pac-Man (up-and-left when Pac-Man faces up), then double the vector from Blinky to that point. This tends to trap Pac-Man between Inky and Blinky.
 
-- **Ranking**: to see the ranking scores saved. <br>
-<img src="./Sprites/Ranking.png"> <br>
-The 10 best saved scores are shown: <br>
-<img src="./images/Ranking-show.png" width="50%"> <br>
-Click on the yellow arrow to go back to the welcome window.
+**Mode cycle** (Normal mode only; game clock starts at Play, including the intro jingle):
 
+| Phase | Scatter | Chase | Game clock (s) |
+|---|---|---|---|
+| 1 | 7 s | 20 s | Scatter until 13, Chase until 33 |
+| 2 | 7 s | 20 s | 40, 60 |
+| 3 | 5 s | 20 s | 65, 85 |
+| 4 | 5 s | ∞ | 90, then Chase forever |
 
+The clock resets when Pac-Man dies or the level restarts.
 
-Once your lives are finished or you finished all the food, you will see a "Game over" or "You Win!" message. 
+- **Frightened** (after a power pellet): ghosts turn blue, slow down to 0.8 px/tick and pick a random direction at each node (never reversing). It lasts as long as the `hunt` sound.
+- **Eaten:** the ghost becomes a pair of eyes, moves at 1.8 px/tick back to the gate, then resumes the current Scatter/Chase phase (or AI in AI mode).
 
-<img src="./Sprites/gameover.png"> <br>
-<img src="./Sprites/win.png"> <br>
+Other rules:
+- Ghosts change direction only at maze nodes.
+- Ghosts move at 1.05 px/tick, Pac-Man at 1 px/tick.
+- The old README claimed Blinky switches to permanent Scatter when 20 food remain. The code doesn't implement this.
 
-The ranking window will appear to save your score. Insert your name into the text box and click "Ok" to save it, or click "Go back" to come back to the welcome window and not save your score.
+## Impossible mode internals
 
-<img src="./images/Ranking-save.png" width="50%">
+- The maze is a graph of 76 nodes (`Entity::nodo`, neighbours in `Entity::vicini`). Edge weights are the pixel distances between adjacent nodes; the tunnel edge 27↔33 is set manually to 104.
+- `Entity::calcoloDistMin()` (`Entity.cpp:807`) runs Floyd–Warshall: all-pairs shortest distances, O(n³) = 76³ ≈ 440k steps. `Entity::is_near()` (`Entity.cpp:855`) is the adjacency test.
+- `Ghosts::cammino()` (`Ghosts.cpp:1215`) rebuilds the actual node path for every pair from the distance matrix. Both run once in the `Ghosts` constructor (`Ghosts.cpp:18-26`), which sets `impossible = true` just for that; the subclass constructors reset it to `false`.
+- At each node, a ghost in state `AI` (`Ghosts.cpp:916`) moves to the first node of the precomputed path from its current node to Pac-Man's *destination* node. If that path is empty, it targets Pac-Man's current node.
+- The mode switch is `Game::impossible`, set by `modImpossible()` / `modNormal()`. `Game::start()` forwards it with `setImpossible(true)` (sprites) and `setAi(true)` (behaviour). Blinky and Clyde turn `ai` into state `AI`; Pinky and Inky turn it into permanent `CHASE`.
 
-# Shortcuts
-- P: paused the game. Click it again to continue to play. <br>
-    <img src="./images/Pause.png" width="50%"> <br>
+## Ranking
 
-- T: show the ghost's target.
+- **Ranking** <img src="./Sprites/Ranking.png"> on the welcome screen shows the top 10 scores; the yellow arrow goes back.
 
-    Normal mode: <br>
-    <img src="./images/Target-show-normal.png" width="50%">
+  <img src="./images/Ranking-show.png" width="50%">
 
-    AI mode: <br>
-    <img src="./images/Target-show-ai.png" width="50%">
+- After Game Over or You Win, the save screen appears: type a name and click **OK** to save, or **Go back** to skip.
+
+  <img src="./images/Ranking-save.png" width="50%">
+
+- Scores are appended to `Ranking.txt` in the **current working directory** (`QFile("Ranking.txt")` in `Game.cpp`), one score line then one name line.
+
+## Code map
+
+Code comments and many identifiers are in Italian (`calcoloDistMin`, `distanza`, `nodo`, `cammino`, `vicini`, …).
+
+```
+QGraphicsPixmapItem
+└── Object
+    ├── Entity ── Pacman
+    │          └── Ghosts ── Blinky, Pinky, Inky, Clyde
+    └── Inert ── Food, Fruit, Life, Boxx
+Game : QGraphicsView   (scenes, state machine, input, ranking)
+Sounds, Sprites        (singletons / asset helpers)
+```
+
+| File | Contents |
+|---|---|
+| `Main.cpp` | Creates `QApplication`, the singletons, shows `Game` |
+| `Game.h/.cpp` | Singleton view: scenes, buttons, game loop timer, scoring, input, ranking |
+| `Object.h/.cpp` | Abstract base: adds itself to the scene, pure `animate()` / `advance()` |
+| `Entity.h/.cpp` | Moving objects: maze nodes and neighbours, Floyd–Warshall |
+| `Pacman.h/.cpp` | Player movement, animation, death |
+| `Ghosts.h/.cpp` | Shared ghost logic: modes, movement, collisions, path reconstruction, mode clock |
+| `Blinky/Pinky/Inky/Clyde.h/.cpp` | Per-ghost textures, Chase/Scatter targets, AI-mode behaviour |
+| `Inert.h/.cpp` | Static objects base with an animation counter |
+| `Food.h/.cpp` | Dots and power pellets; pellets trigger Frightened |
+| `Fruit.h/.cpp` | Bonus cherry and its score popup |
+| `Life.h/.cpp` | Life icon |
+| `Box.h/.cpp` | `Boxx`: the maze image, RGB-blinking in AI mode |
+| `Sounds.h/.cpp` | `QSound` singleton keyed by id |
+| `Sprites.h/.cpp` | Singleton that cuts textures out of the sprite sheets |
+| `Utils.h` | `Direction` and `State` enums, `Point`, texture loaders |
+| `Include.h` | Umbrella include for all headers |
+| `Resources.qrc` | Sprites and sounds embedded via AUTORCC |
+
+**States:**
+- `Game::Game_State` (`Game.h`): `READY`, `RUNNING`, `PAUSE`, `GAME_OVER`.
+- Ghost `State` (`Utils.h`): `SCATTER`, `CHASE`, `VULNERABLE` (Frightened), `EATEN`, `AI`.
+
+## Troubleshooting
+
+**Re-check on 2026-10-16 (macOS, Apple Clang 21, CMake 4.4.3, Homebrew Qt 6 installed):**
+- `cmake -S . -B build` fails at `CMakeLists.txt:7`: *"Compatibility with CMake < 3.5 has been removed from CMake."* Adding `-DCMAKE_POLICY_VERSION_MINIMUM=3.5` gets past it.
+- `-DCMAKE_C_COMPILER` / `-DCMAKE_CXX_COMPILER` / `-DCMAKE_PREFIX_PATH` are ignored: the `set()` calls in `CMakeLists.txt` win (verified in `CMakeCache.txt`). Edit the file, or set `Qt5Widgets_DIR` / `Qt5Multimedia_DIR` instead of the prefix path.
+- Configure then stops at `find_package(Qt5Widgets)` because Qt 5 isn't installed. `brew install qt@5` refuses while Homebrew's Qt 6 is linked (`brew unlink qtbase qtdeclarative qtsvg qttools` first), so the code wasn't compiled in this check. No Linux attempt was made (no container available).
+
+**Known issues:**
+- **Qt 6 doesn't work.** `QSound` was removed in Qt 6, and the CMake file looks for `Qt5::*` targets.
+- **Hardcoded compiler paths.** Lines 1–2 of `CMakeLists.txt` point at Xcode; delete or edit them on other machines.
+- **Ranking file location.** `Ranking.txt` lives in whatever directory the game is launched from. Launching from Xcode or another folder shows a different (or empty) ranking. If the file doesn't exist yet, the ranking screen is empty and the terminal prints `Could not open the file for reading`; the first save creates it.
+- **Equal scores.** The ranking is a `QMap<int, QString>` keyed by score, so two equal scores show only one name (both stay in the file).
+
+## Assets
+
+Sprites and sounds come from the original arcade game and fan-made sprite sheets. They are third-party, which is why the repo is private.
