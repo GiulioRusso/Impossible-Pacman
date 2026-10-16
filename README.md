@@ -2,12 +2,7 @@
 
 Pac-Man clone in C++/Qt 5 with a classic ghost-AI mode and an "impossible" mode where ghosts chase via precomputed shortest paths (Floyd–Warshall).
 
-> **Status**
-> - University project, Object-Oriented Programming course (Tecniche di Programmazione), year: `TODO(Giulio)`.
-> - Private archive.
-> - Qt 5 only (uses `QSound`, removed in Qt 6).
-> - Last built on macOS with Qt 5.15.2 (Xcode toolchain). Re-check on 2026-10-16 (macOS, CMake 4.4): configure only, see [Troubleshooting](#troubleshooting).
-> - Sprites and sounds are third-party; the project is not for redistribution.
+**Course project:** Programming Techniques (Tecniche di Programmazione), University of Cassino and Southern Lazio, 2020–21.
 
 <img src="./images/Example.gif" width="50%">
 
@@ -24,7 +19,7 @@ With CMake ≥ 4 also pass `-DCMAKE_POLICY_VERSION_MINIMUM=3.5` to the first com
 
 ## Build notes
 
-**Requirements:** Qt 5 (Widgets, Multimedia), CMake ≥ 3.1, a C++11 compiler.
+**Requirements:** Qt 5 (Widgets, Multimedia; Qt 6 won't work, see [Troubleshooting](#troubleshooting)), CMake ≥ 3.1, a C++11 compiler. Last built on macOS with Qt 5.15.2 and the Xcode toolchain.
 
 **Hardcoded paths in `CMakeLists.txt`.** All three use `set()`, which overrides `-D` values from the command line, so they must be edited in the file on any other machine:
 
@@ -195,4 +190,4 @@ Sounds, Sprites        (singletons / asset helpers)
 
 ## Assets
 
-Sprites and sounds come from the original arcade game and fan-made sprite sheets. They are third-party, which is why the repo is private.
+Sprites and sounds come from the original arcade game and fan-made sprite sheets. They are third-party, which is why the repo is private and not for redistribution.
